@@ -34,7 +34,7 @@ const MENU_ITEMS = [
   },
 ];
 
-export default function SideMenu() {
+export default function SideMenu({ width }) {
   return (
     <Drawer
       variant="permanent"
@@ -42,7 +42,7 @@ export default function SideMenu() {
         display: { xs: "none", sm: "block" },
         "& .MuiDrawer-paper": {
           boxSizing: "border-box",
-          width: "180px",
+          width: `${width}px`,
           backgroundColor: "#f5f6fa",
         },
       }}

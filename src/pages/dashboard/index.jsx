@@ -1,9 +1,6 @@
-import SideMenu from "@components/dashboard/SideMenu";
+// components
+import Layout from "@components/app/Layout";
 
 export default function Dashboard() {
-  return (
-    <>
-      <SideMenu />
-    </>
-  );
+  return <Layout>test</Layout>;
 }
