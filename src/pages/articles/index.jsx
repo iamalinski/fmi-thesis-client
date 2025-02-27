@@ -32,42 +32,33 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from "react-router-dom";
 
-const mockSales = Array.from({ length: 20 }, (_, index) => ({
-  id: `SALE-${String(index + 1).padStart(4, "0")}`,
-  date: new Date(2024, 0, index + 1).toLocaleDateString("bg-BG"),
-  items: Array.from({ length: Math.floor(Math.random() * 4) + 1 }, (_, itemIndex) => ({
-    id: `ITEM-${index}-${itemIndex}`,
-    article: `Артикул ${Math.floor(Math.random() * 20) + 1}`,
-    quantity: Math.floor(Math.random() * 10) + 1,
-    price: (Math.random() * 1000).toFixed(2),
-    total: function() { return (this.quantity * parseFloat(this.price)).toFixed(2) },
-  })),
-  get total() {
-    return this.items.reduce((sum, item) => sum + parseFloat(item.total()), 0).toFixed(2);
-  }
+const mockArticles = Array.from({ length: 50 }, (_, index) => ({
+  id: `ART-${String(index + 1).padStart(4, "0")}`,
+  name: `Артикул ${index + 1}`,
+  price: (Math.random() * 1000).toFixed(2),
+  stock: Math.floor(Math.random() * 100),
+  status: ["active", "inactive"][Math.floor(Math.random() * 2)],
 }));
 
 const statusColors = {
-  completed: "success",
-  pending: "warning",
-  cancelled: "error",
+  active: "success",
+  inactive: "error",
 };
 
 const statusLabels = {
-  completed: "Завършена",
-  pending: "В процес",
-  cancelled: "Отказана",
+  active: "Активен",
+  inactive: "Неактивен",
 };
 
-export default function Sales() {
+export default function Articles() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedSale, setSelectedSale] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState(null);
   const [filters, setFilters] = useState({
     search: "",
-    article: "",
+    status: "all",
   });
 
   const handleChangePage = (event, newPage) => {
@@ -79,32 +70,32 @@ export default function Sales() {
     setPage(0);
   };
 
-  const handleCreateSale = () => {
-    navigate("/sales/new");
+  const handleCreateArticle = () => {
+    navigate("/articles/new");
   };
 
-  const handleOpenMenu = (event, sale) => {
+  const handleOpenMenu = (event, article) => {
     setAnchorEl(event.currentTarget);
-    setSelectedSale(sale);
+    setSelectedArticle(article);
   };
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
-    setSelectedSale(null);
+    setSelectedArticle(null);
   };
 
   const handleView = () => {
-    console.log("View sale:", selectedSale);
+    console.log("View article:", selectedArticle);
     handleCloseMenu();
   };
 
   const handleEdit = () => {
-    console.log("Edit sale:", selectedSale);
+    console.log("Edit article:", selectedArticle);
     handleCloseMenu();
   };
 
   const handleDelete = () => {
-    console.log("Delete sale:", selectedSale);
+    console.log("Delete article:", selectedArticle);
     handleCloseMenu();
   };
 
@@ -118,26 +109,25 @@ export default function Sales() {
   };
 
   const hasActiveFilters = () => {
-    return filters.search !== "" || filters.article !== "";
+    return filters.search !== "" || filters.status !== "all";
   };
 
   const handleClearFilters = () => {
     setFilters({
       search: "",
-      article: "",
+      status: "all",
     });
     setPage(0);
   };
 
-  const filteredSales = mockSales.filter((sale) => {
-    const matchesSearch = sale.id
+  const filteredArticles = mockArticles.filter((article) => {
+    const matchesSearch = article.name
       .toLowerCase()
       .includes(filters.search.toLowerCase());
-    const matchesArticle = filters.article === "" || sale.items.some(item => 
-      item.article.toLowerCase().includes(filters.article.toLowerCase())
-    );
+    const matchesStatus =
+      filters.status === "all" || article.status === filters.status;
 
-    return matchesSearch && matchesArticle;
+    return matchesSearch && matchesStatus;
   });
 
   return (
@@ -150,19 +140,19 @@ export default function Sales() {
         }}
       >
         <Typography variant="h4" sx={{ fontWeight: 600 }}>
-          Продажби
+          Артикули
         </Typography>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          onClick={handleCreateSale}
+          onClick={handleCreateArticle}
           sx={{
             textTransform: "none",
             borderRadius: 2,
             px: 3,
           }}
         >
-          Нова продажба
+          Нов артикул
         </Button>
       </Box>
       <Divider sx={{ mt: 3, mb: 3 }} />
@@ -192,7 +182,7 @@ export default function Sales() {
               <Grid item>
                 <TextField
                   size="small"
-                  label="Номер"
+                  label="Име"
                   name="search"
                   value={filters.search}
                   onChange={handleFilterChange}
@@ -200,14 +190,19 @@ export default function Sales() {
                 />
               </Grid>
               <Grid item>
-                <TextField
-                  size="small"
-                  label="Артикул"
-                  name="article"
-                  value={filters.article}
-                  onChange={handleFilterChange}
-                  sx={{ width: "180px" }}
-                />
+                <FormControl size="small" sx={{ width: "180px" }}>
+                  <InputLabel>Статус</InputLabel>
+                  <Select
+                    label="Статус"
+                    name="status"
+                    value={filters.status}
+                    onChange={handleFilterChange}
+                  >
+                    <MenuItem value="all">Всички</MenuItem>
+                    <MenuItem value="active">Активни</MenuItem>
+                    <MenuItem value="inactive">Неактивни</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
           </Grid>
@@ -245,17 +240,20 @@ export default function Sales() {
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 600, width: "120px" }}>
-                  Номер
-                </TableCell>
-                <TableCell sx={{ fontWeight: 600, width: "120px" }}>
-                  Дата
+                <TableCell sx={{ fontWeight: 600, width: "100px" }}>
+                  Код
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>
-                  Артикули
+                  Име
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, width: "120px" }} align="right">
-                  Общо
+                  Цена
+                </TableCell>
+                <TableCell sx={{ fontWeight: 600, width: "100px" }} align="right">
+                  Наличност
+                </TableCell>
+                <TableCell sx={{ fontWeight: 600, width: "100px" }}>
+                  Статус
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, width: "60px" }} align="center">
                   Опции
@@ -263,11 +261,11 @@ export default function Sales() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredSales
+              {filteredArticles
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((sale) => (
+                .map((article) => (
                   <TableRow
-                    key={sale.id}
+                    key={article.id}
                     hover
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
@@ -275,62 +273,30 @@ export default function Sales() {
                     }}
                   >
                     <TableCell component="th" scope="row">
-                      {sale.id}
+                      {article.id}
                     </TableCell>
-                    <TableCell>{sale.date}</TableCell>
+                    <TableCell>{article.name}</TableCell>
+                    <TableCell align="right">
+                      {article.price} лв.
+                    </TableCell>
+                    <TableCell align="right">
+                      {article.stock} бр.
+                    </TableCell>
                     <TableCell>
-                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                        {sale.items.map((item) => (
-                          <Box 
-                            key={item.id}
-                            sx={{ 
-                              display: 'flex', 
-                              alignItems: 'center',
-                              gap: 2,
-                              '&:not(:last-child)': {
-                                borderBottom: '1px dashed',
-                                borderColor: 'divider',
-                                pb: 1
-                              }
-                            }}
-                          >
-                            <Typography variant="body2" sx={{ flex: 1 }}>
-                              {item.article}
-                            </Typography>
-                            <Typography 
-                              variant="body2" 
-                              color="text.secondary"
-                              sx={{ minWidth: 80 }}
-                            >
-                              {item.quantity} бр.
-                            </Typography>
-                            <Typography 
-                              variant="body2" 
-                              color="text.secondary"
-                              sx={{ minWidth: 100 }}
-                            >
-                              {item.price} лв.
-                            </Typography>
-                            <Typography 
-                              variant="body2" 
-                              sx={{ 
-                                minWidth: 100,
-                                fontWeight: 500
-                              }}
-                            >
-                              {item.total()} лв.
-                            </Typography>
-                          </Box>
-                        ))}
-                      </Box>
-                    </TableCell>
-                    <TableCell align="right" sx={{ fontWeight: 600 }}>
-                      {sale.total} лв.
+                      <Chip
+                        label={statusLabels[article.status]}
+                        color={statusColors[article.status]}
+                        size="small"
+                        sx={{
+                          fontWeight: 500,
+                          minWidth: 80,
+                        }}
+                      />
                     </TableCell>
                     <TableCell padding="none" align="center">
                       <IconButton
                         size="small"
-                        onClick={(event) => handleOpenMenu(event, sale)}
+                        onClick={(event) => handleOpenMenu(event, article)}
                       >
                         <MoreVertIcon fontSize="small" />
                       </IconButton>
@@ -342,7 +308,7 @@ export default function Sales() {
         </TableContainer>
         <TablePagination
           component="div"
-          count={filteredSales.length}
+          count={filteredArticles.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

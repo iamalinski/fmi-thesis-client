@@ -1,19 +1,37 @@
-// components
-import SideMenu from "@components/app/SideMenu";
+import { useState } from 'react';
+import { Box, Toolbar } from '@mui/material';
+import SideMenu from './SideMenu';
 
-const SIDE_MENU_WIDTH_PX = 180;
+const DRAWER_WIDTH = 240;
 
 export default function Layout({ children }) {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <main>
-      <SideMenu width={SIDE_MENU_WIDTH_PX} />
-      <section
-        style={{
-          marginLeft: `${SIDE_MENU_WIDTH_PX}px`,
+    <Box sx={{ display: 'flex' }}>
+      <SideMenu 
+        width={DRAWER_WIDTH} 
+        open={isOpen} 
+        onToggle={handleToggle} 
+      />
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          width: { sm: `calc(100% - ${isOpen ? DRAWER_WIDTH : 64}px)` },
+          ml: { sm: `${isOpen ? DRAWER_WIDTH : 64}px` },
+          transition: (theme) => theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
         }}
       >
         {children}
-      </section>
-    </main>
+      </Box>
+    </Box>
   );
 }

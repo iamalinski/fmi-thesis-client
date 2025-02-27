@@ -1,9 +1,16 @@
 import { Navigate, Outlet } from "react-router-dom";
 
+// components
+import Layout from "@components/app/Layout";
+
 export default function AuthRoute({ isAuthenticated }) {
   if (!isAuthenticated) {
-    return <Navigate to="/not-authorized" replace />;
+    return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
 }

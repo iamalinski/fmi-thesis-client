@@ -24,9 +24,6 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 
-// components
-import Layout from "@components/app/Layout";
-
 export default function Invoice() {
   const [invoice, setInvoice] = useState({
     invoiceNumber: "",
@@ -186,418 +183,416 @@ export default function Invoice() {
   }
 
   return (
-    <Layout>
-      <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-        <Box component="form" onSubmit={handleSubmit}>
-          <Grid2 container spacing={2} sx={{ mb: 1.5 }}>
-            <Grid2 item size={4}>
-              <Paper elevation={1} sx={{ p: 1 }}>
-                <Typography variant="h6" gutterBottom>
-                  Клиент
-                </Typography>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Фирма"
-                  name="name"
-                  value={invoice.buyer.name}
-                  onChange={handleBuyerChange}
-                  required
-                  autoFocus
-                  sx={{ mb: 1.5 }}
-                />
-                <Grid2 container spacing={1}>
-                  <Grid2 item size={6}>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="ЕИК"
-                      name="number"
-                      value={invoice.buyer.number}
-                      onChange={handleBuyerChange}
-                      sx={{ mb: 1.5 }}
-                      required
-                    />
-                  </Grid2>
-                  <Grid2 item size={6}>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="ЗДДС"
-                      name="vatNumber"
-                      value={invoice.buyer.vatNumber}
-                      onChange={handleBuyerChange}
-                      sx={{ mb: 1.5 }}
-                    />
-                  </Grid2>
-                </Grid2>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="МОЛ"
-                  name="accPerson"
-                  value={invoice.buyer.accPerson}
-                  onChange={handleBuyerChange}
-                  required
-                  sx={{ mb: 1.5 }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Адрес"
-                  name="address"
-                  value={invoice.buyer.address}
-                  onChange={handleBuyerChange}
-                  required
-                />
-              </Paper>
-            </Grid2>
-
-            <Grid2 item size={4}>
-              <Paper elevation={1} sx={{ p: 1 }}>
-                <Typography variant="h6" gutterBottom>
-                  Нова фактура
-                </Typography>
-                <Grid2 container spacing={1}>
-                  <Grid2 item size={7}>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="Номер"
-                      name="invoiceNumber"
-                      value={invoice.invoiceNumber}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </Grid2>
-                  <Grid2 item size={5}>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="Дата"
-                      type="date"
-                      name="invoiceDate"
-                      value={invoice.invoiceDate}
-                      onChange={handleInputChange}
-                      InputLabelProps={{ shrink: true }}
-                      required
-                    />
-                  </Grid2>
-                </Grid2>
-              </Paper>
-            </Grid2>
-
-            <Grid2 item size={4}>
-              <Paper elevation={1} sx={{ p: 1 }}>
-                <Typography variant="h6" gutterBottom>
-                  Доставчик
-                </Typography>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Фирма"
-                  name="name"
-                  value={invoice.seller.name}
-                  onChange={handleSellerChange}
-                  required
-                  sx={{ mb: 1.5 }}
-                />
-                <Grid2 container spacing={1}>
-                  <Grid2 item size={6}>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="ЕИК"
-                      name="number"
-                      value={invoice.seller.number}
-                      onChange={handleSellerChange}
-                      sx={{ mb: 1.5 }}
-                      required
-                    />
-                  </Grid2>
-                  <Grid2 item size={6}>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="ЗДДС"
-                      name="vatNumber"
-                      value={invoice.seller.vatNumber}
-                      onChange={handleSellerChange}
-                      sx={{ mb: 1.5 }}
-                    />
-                  </Grid2>
-                </Grid2>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="МОЛ"
-                  name="accPerson"
-                  value={invoice.seller.accPerson}
-                  onChange={handleSellerChange}
-                  required
-                  sx={{ mb: 1.5 }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Адрес"
-                  name="address"
-                  value={invoice.seller.address}
-                  onChange={handleSellerChange}
-                  required
-                  sx={{ mb: isPaymentMethodBank() ? 1.5 : 0 }}
-                />
-
-                {isPaymentMethodBank() ? (
+    <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+      <Box component="form" onSubmit={handleSubmit}>
+        <Grid2 container spacing={2} sx={{ mb: 1.5 }}>
+          <Grid2 item size={4}>
+            <Paper elevation={1} sx={{ p: 1 }}>
+              <Typography variant="h6" gutterBottom>
+                Клиент
+              </Typography>
+              <TextField
+                fullWidth
+                size="small"
+                label="Фирма"
+                name="name"
+                value={invoice.buyer.name}
+                onChange={handleBuyerChange}
+                required
+                autoFocus
+                sx={{ mb: 1.5 }}
+              />
+              <Grid2 container spacing={1}>
+                <Grid2 item size={6}>
                   <TextField
                     fullWidth
                     size="small"
-                    label="Банкова Сметка"
-                    name="bankAccount"
-                    value={invoice.seller.bankAccount}
-                    onChange={handleSellerChange}
+                    label="ЕИК"
+                    name="number"
+                    value={invoice.buyer.number}
+                    onChange={handleBuyerChange}
+                    sx={{ mb: 1.5 }}
                     required
                   />
-                ) : (
-                  <></>
-                )}
-              </Paper>
-            </Grid2>
+                </Grid2>
+                <Grid2 item size={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="ЗДДС"
+                    name="vatNumber"
+                    value={invoice.buyer.vatNumber}
+                    onChange={handleBuyerChange}
+                    sx={{ mb: 1.5 }}
+                  />
+                </Grid2>
+              </Grid2>
+              <TextField
+                fullWidth
+                size="small"
+                label="МОЛ"
+                name="accPerson"
+                value={invoice.buyer.accPerson}
+                onChange={handleBuyerChange}
+                required
+                sx={{ mb: 1.5 }}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                label="Адрес"
+                name="address"
+                value={invoice.buyer.address}
+                onChange={handleBuyerChange}
+                required
+              />
+            </Paper>
           </Grid2>
 
-          <Typography variant="h6" gutterBottom>
-            Продукти/Услуги
-          </Typography>
-          <TableContainer component={Paper} elevation={1} sx={{ mb: 1.5 }}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Описание</TableCell>
-                  <TableCell>Количество</TableCell>
-                  <TableCell>Ед. цена</TableCell>
-                  <TableCell>Отстъпка (%)</TableCell>
-                  <TableCell>Обща сума</TableCell>
-                  <TableCell>Действия</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {invoice.items.map(function (item, index) {
-                  return (
-                    <TableRow key={index}>
-                      <TableCell>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="description"
-                          value={item.description}
-                          onChange={(e) => {
-                            handleItemChange(index, e);
-                          }}
-                          autoFocus={invoice.items.length > 1}
-                          required
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <TextField
-                          size="small"
-                          type="number"
-                          name="quantity"
-                          value={item.quantity}
-                          onChange={(e) => {
-                            handleItemChange(index, e);
-                          }}
-                          required
-                          sx={{ width: "75px" }}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <TextField
-                          size="small"
-                          type="number"
-                          name="unitPrice"
-                          value={item.unitPrice}
-                          onChange={(e) => {
-                            handleItemChange(index, e);
-                          }}
-                          required
-                          sx={{ width: "100px" }}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <TextField
-                          size="small"
-                          type="number"
-                          name="discount"
-                          value={item.discount}
-                          onChange={(e) => {
-                            handleItemChange(index, e);
-                          }}
-                          sx={{ width: "75px" }}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <TextField
-                          size="small"
-                          type="number"
-                          name="totalPrice"
-                          value={item.totalPrice.toFixed(2)}
-                          disabled
-                          sx={{ width: "120px" }}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <IconButton
-                          onClick={() => {
-                            handleRemoveItem(index);
-                          }}
-                          color="error"
-                          disabled={invoice.items.length === 1}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <Grid2
-            container
-            justifyContent="space-between"
-            alignItems="flex-start"
-            sx={{ mb: 1.5 }}
-          >
-            <Button
-              onClick={handleAddItem}
-              variant="contained"
-              size="small"
-              sx={{ mb: 1.5, minWidth: 0 }}
-            >
-              <AddIcon />
-            </Button>
-            <Grid2 item size={4}>
-              <Paper elevation={1} sx={{ p: 1 }}>
-                <Typography variant="h6" gutterBottom>
-                  Общо
-                </Typography>
-                <Grid2 container sx={{ p: 0.1 }} justifyContent="space-between">
-                  <Typography variant="body1" gutterBottom>
-                    Сума:
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    gutterBottom
-                    sx={{ fontWeight: "bold" }}
-                  >
-                    {invoice.subtotal.toFixed(2)} BGN
-                  </Typography>
-                </Grid2>
-                <Grid2 container sx={{ p: 0.1 }} justifyContent="space-between">
-                  <Typography variant="body1" gutterBottom>
-                    ДДС (20%):
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    gutterBottom
-                    sx={{ fontWeight: "bold" }}
-                  >
-                    {invoice.vat.toFixed(2)} BGN
-                  </Typography>
-                </Grid2>
-                <Grid2 container sx={{ p: 0.1 }} justifyContent="space-between">
-                  <Typography variant="body1">Крайна сума:</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                    {invoice.totalAmount.toFixed(2)} BGN
-                  </Typography>
-                </Grid2>
-              </Paper>
-            </Grid2>
-          </Grid2>
-
-          <Typography variant="h6" gutterBottom>
-            Допълнителна информация
-          </Typography>
-          <Paper elevation={1} sx={{ p: 1, mb: 2 }}>
-            <Grid2 container spacing={1}>
-              <Grid2 item size={2.5}>
-                <FormControl fullWidth size="small">
-                  <InputLabel>Начин на плащане</InputLabel>
-                  <Select
-                    label="Начин на Плащане"
-                    name="paymentMethod"
-                    value={invoice.paymentMethod}
+          <Grid2 item size={4}>
+            <Paper elevation={1} sx={{ p: 1 }}>
+              <Typography variant="h6" gutterBottom>
+                Нова фактура
+              </Typography>
+              <Grid2 container spacing={1}>
+                <Grid2 item size={7}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Номер"
+                    name="invoiceNumber"
+                    value={invoice.invoiceNumber}
                     onChange={handleInputChange}
                     required
-                  >
-                    <MenuItem value="Cash">В Брой</MenuItem>
-                    <MenuItem value="Bank">Банков Превод</MenuItem>
-                  </Select>
-                </FormControl>
+                  />
+                </Grid2>
+                <Grid2 item size={5}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Дата"
+                    type="date"
+                    name="invoiceDate"
+                    value={invoice.invoiceDate}
+                    onChange={handleInputChange}
+                    InputLabelProps={{ shrink: true }}
+                    required
+                  />
+                </Grid2>
               </Grid2>
-              <Grid2 item size={1.8}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Падеж"
-                  type="date"
-                  name="dueDate"
-                  value={invoice.dueDate}
-                  onChange={handleInputChange}
-                  InputLabelProps={{ shrink: true }}
-                  required
-                />
-              </Grid2>
-              <Grid2 item size={3.8}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Място на сделката"
-                  name="dealLocation"
-                  value={invoice.dealLocation}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Grid2>
-              <Grid2 item size={3.9}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label="Автор"
-                  name="author"
-                  value={invoice.author}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Grid2>
-            </Grid2>
-          </Paper>
+            </Paper>
+          </Grid2>
 
-          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
-            <Button
-              variant="outlined"
-              onClick={handleCancel}
-              sx={{
-                textTransform: "none",
-              }}
-            >
-              Отказ
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{
-                width: "140px",
-                textTransform: "none",
-              }}
-            >
-              Запази
-            </Button>
-          </Box>
+          <Grid2 item size={4}>
+            <Paper elevation={1} sx={{ p: 1 }}>
+              <Typography variant="h6" gutterBottom>
+                Доставчик
+              </Typography>
+              <TextField
+                fullWidth
+                size="small"
+                label="Фирма"
+                name="name"
+                value={invoice.seller.name}
+                onChange={handleSellerChange}
+                required
+                sx={{ mb: 1.5 }}
+              />
+              <Grid2 container spacing={1}>
+                <Grid2 item size={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="ЕИК"
+                    name="number"
+                    value={invoice.seller.number}
+                    onChange={handleSellerChange}
+                    sx={{ mb: 1.5 }}
+                    required
+                  />
+                </Grid2>
+                <Grid2 item size={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="ЗДДС"
+                    name="vatNumber"
+                    value={invoice.seller.vatNumber}
+                    onChange={handleSellerChange}
+                    sx={{ mb: 1.5 }}
+                  />
+                </Grid2>
+              </Grid2>
+              <TextField
+                fullWidth
+                size="small"
+                label="МОЛ"
+                name="accPerson"
+                value={invoice.seller.accPerson}
+                onChange={handleSellerChange}
+                required
+                sx={{ mb: 1.5 }}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                label="Адрес"
+                name="address"
+                value={invoice.seller.address}
+                onChange={handleSellerChange}
+                required
+                sx={{ mb: isPaymentMethodBank() ? 1.5 : 0 }}
+              />
+
+              {isPaymentMethodBank() ? (
+                <TextField
+                  fullWidth
+                  size="small"
+                  label="Банкова Сметка"
+                  name="bankAccount"
+                  value={invoice.seller.bankAccount}
+                  onChange={handleSellerChange}
+                  required
+                />
+              ) : (
+                <></>
+              )}
+            </Paper>
+          </Grid2>
+        </Grid2>
+
+        <Typography variant="h6" gutterBottom>
+          Продукти/Услуги
+        </Typography>
+        <TableContainer component={Paper} elevation={1} sx={{ mb: 1.5 }}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Описание</TableCell>
+                <TableCell>Количество</TableCell>
+                <TableCell>Ед. цена</TableCell>
+                <TableCell>Отстъпка (%)</TableCell>
+                <TableCell>Обща сума</TableCell>
+                <TableCell>Действия</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {invoice.items.map(function (item, index) {
+                return (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        name="description"
+                        value={item.description}
+                        onChange={(e) => {
+                          handleItemChange(index, e);
+                        }}
+                        autoFocus={invoice.items.length > 1}
+                        required
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        size="small"
+                        type="number"
+                        name="quantity"
+                        value={item.quantity}
+                        onChange={(e) => {
+                          handleItemChange(index, e);
+                        }}
+                        required
+                        sx={{ width: "75px" }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        size="small"
+                        type="number"
+                        name="unitPrice"
+                        value={item.unitPrice}
+                        onChange={(e) => {
+                          handleItemChange(index, e);
+                        }}
+                        required
+                        sx={{ width: "100px" }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        size="small"
+                        type="number"
+                        name="discount"
+                        value={item.discount}
+                        onChange={(e) => {
+                          handleItemChange(index, e);
+                        }}
+                        sx={{ width: "75px" }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        size="small"
+                        type="number"
+                        name="totalPrice"
+                        value={item.totalPrice.toFixed(2)}
+                        disabled
+                        sx={{ width: "120px" }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() => {
+                          handleRemoveItem(index);
+                        }}
+                        color="error"
+                        disabled={invoice.items.length === 1}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Grid2
+          container
+          justifyContent="space-between"
+          alignItems="flex-start"
+          sx={{ mb: 1.5 }}
+        >
+          <Button
+            onClick={handleAddItem}
+            variant="contained"
+            size="small"
+            sx={{ mb: 1.5, minWidth: 0 }}
+          >
+            <AddIcon />
+          </Button>
+          <Grid2 item size={4}>
+            <Paper elevation={1} sx={{ p: 1 }}>
+              <Typography variant="h6" gutterBottom>
+                Общо
+              </Typography>
+              <Grid2 container sx={{ p: 0.1 }} justifyContent="space-between">
+                <Typography variant="body1" gutterBottom>
+                  Сума:
+                </Typography>
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {invoice.subtotal.toFixed(2)} BGN
+                </Typography>
+              </Grid2>
+              <Grid2 container sx={{ p: 0.1 }} justifyContent="space-between">
+                <Typography variant="body1" gutterBottom>
+                  ДДС (20%):
+                </Typography>
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {invoice.vat.toFixed(2)} BGN
+                </Typography>
+              </Grid2>
+              <Grid2 container sx={{ p: 0.1 }} justifyContent="space-between">
+                <Typography variant="body1">Крайна сума:</Typography>
+                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                  {invoice.totalAmount.toFixed(2)} BGN
+                </Typography>
+              </Grid2>
+            </Paper>
+          </Grid2>
+        </Grid2>
+
+        <Typography variant="h6" gutterBottom>
+          Допълнителна информация
+        </Typography>
+        <Paper elevation={1} sx={{ p: 1, mb: 2 }}>
+          <Grid2 container spacing={1}>
+            <Grid2 item size={2.5}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Начин на плащане</InputLabel>
+                <Select
+                  label="Начин на Плащане"
+                  name="paymentMethod"
+                  value={invoice.paymentMethod}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <MenuItem value="Cash">В Брой</MenuItem>
+                  <MenuItem value="Bank">Банков Превод</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid2>
+            <Grid2 item size={1.8}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Падеж"
+                type="date"
+                name="dueDate"
+                value={invoice.dueDate}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                required
+              />
+            </Grid2>
+            <Grid2 item size={3.8}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Място на сделката"
+                name="dealLocation"
+                value={invoice.dealLocation}
+                onChange={handleInputChange}
+                required
+              />
+            </Grid2>
+            <Grid2 item size={3.9}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Автор"
+                name="author"
+                value={invoice.author}
+                onChange={handleInputChange}
+                required
+              />
+            </Grid2>
+          </Grid2>
+        </Paper>
+
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+          <Button
+            variant="outlined"
+            onClick={handleCancel}
+            sx={{
+              textTransform: "none",
+            }}
+          >
+            Отказ
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{
+              width: "140px",
+              textTransform: "none",
+            }}
+          >
+            Запази
+          </Button>
         </Box>
-      </Container>
-    </Layout>
+      </Box>
+    </Container>
   );
 }
