@@ -309,7 +309,7 @@ export default function Invoices() {
                       {invoice.date}
                     </TableCell>
                     <TableCell align="right" sx={{ width: "120px" }}>
-                      {invoice.amount} лв.
+                      {invoice.amount} BGN
                     </TableCell>
                     <TableCell sx={{ width: "100px" }}>
                       <Chip

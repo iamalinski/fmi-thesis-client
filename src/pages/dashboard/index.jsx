@@ -68,7 +68,7 @@ export default function Dashboard() {
                   Общо приходи
                 </Typography>
                 <Typography variant="h4" sx={{ mb: 1, fontWeight: 600 }}>
-                  24,500 лв.
+                  24,500 BGN
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <TrendingUpIcon color="success" fontSize="small" />
@@ -184,7 +184,7 @@ export default function Dashboard() {
                   <TableRow key={invoice.id} hover>
                     <TableCell>{invoice.id}</TableCell>
                     <TableCell>{invoice.client}</TableCell>
-                    <TableCell align="right">{invoice.amount} лв.</TableCell>
+                    <TableCell align="right">{invoice.amount} BGN</TableCell>
                     <TableCell>
                       <Chip
                         label={statusLabels[invoice.status]}

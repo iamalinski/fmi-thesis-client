@@ -309,7 +309,7 @@ export default function Sales() {
                               color="text.secondary"
                               sx={{ minWidth: 100 }}
                             >
-                              {item.price} лв.
+                              {item.price} BGN
                             </Typography>
                             <Typography 
                               variant="body2" 
@@ -318,14 +318,14 @@ export default function Sales() {
                                 fontWeight: 500
                               }}
                             >
-                              {item.total()} лв.
+                              {item.total()} BGN
                             </Typography>
                           </Box>
                         ))}
                       </Box>
                     </TableCell>
                     <TableCell align="right" sx={{ fontWeight: 600 }}>
-                      {sale.total} лв.
+                      {sale.total} BGN
                     </TableCell>
                     <TableCell padding="none" align="center">
                       <IconButton

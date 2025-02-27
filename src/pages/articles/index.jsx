@@ -277,7 +277,7 @@ export default function Articles() {
                     </TableCell>
                     <TableCell>{article.name}</TableCell>
                     <TableCell align="right">
-                      {article.price} лв.
+                      {article.price} BGN
                     </TableCell>
                     <TableCell align="right">
                       {article.stock} бр.
