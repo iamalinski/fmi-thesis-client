@@ -34,6 +34,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from "react-router-dom";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import DeleteConfirmationDialog from '../../components/common/DeleteConfirmationDialog';
 
 const mockInvoices = Array.from({ length: 50 }, (_, index) => ({
   id: `INV-${2024}${String(index + 1).padStart(4, "0")}`,
@@ -66,6 +71,8 @@ export default function Invoices() {
     status: "all",
     client: "",
   });
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [invoiceToDelete, setInvoiceToDelete] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -90,19 +97,36 @@ export default function Invoices() {
     setSelectedInvoice(null);
   };
 
+  const handleRowClick = (invoice) => {
+    navigate(`/invoices/${invoice.id}`);
+  };
+
   const handleView = () => {
-    console.log("View invoice:", selectedInvoice);
+    navigate(`/invoices/${selectedInvoice.id}`);
     handleCloseMenu();
   };
 
   const handleEdit = () => {
-    console.log("Edit invoice:", selectedInvoice);
+    navigate(`/invoices/edit/${selectedInvoice.id}`);
     handleCloseMenu();
   };
 
-  const handleDelete = () => {
-    console.log("Delete invoice:", selectedInvoice);
+  const handleDeleteClick = (invoice) => {
+    setInvoiceToDelete(invoice);
+    setDeleteDialogOpen(true);
     handleCloseMenu();
+  };
+
+  const handleDeleteConfirm = () => {
+    // TODO: Implement delete API call
+    console.log('Deleting invoice:', invoiceToDelete.id);
+    setDeleteDialogOpen(false);
+    setInvoiceToDelete(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+    setInvoiceToDelete(null);
   };
 
   const handleFilterChange = (event) => {
@@ -292,8 +316,10 @@ export default function Invoices() {
                   <TableRow
                     key={invoice.id}
                     hover
+                    onClick={() => handleRowClick(invoice)}
                     sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
+                      cursor: 'pointer',
+                      '&:last-child td, &:last-child th': { border: 0 },
                       transition: "background-color 0.2s",
                     }}
                   >
@@ -326,6 +352,7 @@ export default function Invoices() {
                       padding="none"
                       align="center"
                       sx={{ width: "60px" }}
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <IconButton
                         size="small"
@@ -389,13 +416,23 @@ export default function Invoices() {
           </ListItemIcon>
           <ListItemText>Редакция</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleDelete}>
+        <MenuItem 
+          onClick={() => handleDeleteClick(selectedInvoice)}
+          sx={{ color: 'error.main' }}
+        >
           <ListItemIcon>
             <DeleteIcon fontSize="small" color="error" />
           </ListItemIcon>
           <ListItemText>Изтрий</ListItemText>
         </MenuItem>
       </Menu>
+
+      <DeleteConfirmationDialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        itemName={`фактура ${invoiceToDelete?.id}`}
+      />
     </Box>
   );
 }

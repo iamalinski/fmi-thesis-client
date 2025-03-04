@@ -12,6 +12,7 @@ import AuthRoute from "@components/routes/AuthRoute";
 import PublicRoute from "@components/routes/PublicRoute";
 import Invoices from "@pages/invoices";
 import Invoice from "@pages/invoices/Invoice";
+import InvoicePreview from "@pages/invoices/InvoicePreview";
 import Sales from "@pages/sales";
 import Settings from "@pages/settings";
 import Articles from "@pages/articles";
@@ -34,6 +35,8 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/invoices" element={<Invoices />} />
           <Route path="/invoices/new" element={<Invoice />} />
+          <Route path="/invoices/:id" element={<InvoicePreview />} />
+          <Route path="/invoices/edit/:id" element={<Invoice />} />
           <Route path="/sales" element={<Sales />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/articles" element={<Articles />} />

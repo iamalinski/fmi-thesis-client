@@ -33,6 +33,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // Mock data for demonstration
 const mockClients = [
@@ -417,6 +418,9 @@ const isDetailsValid = (details) => {
 };
 
 export default function Invoice() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
   const [activeStep, setActiveStep] = useState(0);
   const [invoice, setInvoice] = useState({
     invoiceNumber: "",
@@ -528,11 +532,18 @@ export default function Invoice() {
     }
   }, [invoice]);
 
+  React.useEffect(() => {
+    if (isEditMode) {
+      // TODO: Fetch invoice data from API
+      // setInvoice(fetchedInvoiceData);
+    }
+  }, [isEditMode, id]);
+
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
       <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider' }}>
         <Typography variant="h5" gutterBottom fontWeight={600}>
-          Нова фактура
+          {isEditMode ? 'Редактиране на фактура' : 'Нова фактура'}
         </Typography>
         
         <Stepper activeStep={activeStep} orientation="vertical" sx={{ mt: 3 }}>
