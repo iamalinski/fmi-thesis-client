@@ -24,6 +24,7 @@ import { useTheme } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PeopleIcon from "@mui/icons-material/People";
 
 const MENU_ITEMS = [
   {
@@ -45,6 +46,11 @@ const MENU_ITEMS = [
     name: "Продажби",
     icon: <StoreIcon />,
     path: "/sales",
+  },
+  {
+    name: "Клиенти",
+    icon: <PeopleIcon />,
+    path: "/clients",
   },
 ];
 
@@ -194,81 +200,7 @@ export default function SideMenu({ width, open, onToggle }) {
         ))}
       </List>
 
-      <List
-        sx={{
-          marginTop: "auto",
-          padding: "8px",
-        }}
-      >
-        <ListItem disablePadding>
-          <ListItemButton
-            selected={location.pathname === "/settings"}
-            onClick={() => handleNavigation("/settings")}
-            sx={{
-              gap: "12px",
-              borderRadius: 1,
-              minHeight: 44,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-              transition: "all 0.2s ease-in-out",
-              position: "relative",
-              "&:hover": {
-                backgroundColor: "action.hover",
-                transform: open ? "translateX(4px)" : "none",
-              },
-              "&.Mui-selected": {
-                backgroundColor: "background.paper",
-                boxShadow: 1,
-                "&:hover": {
-                  backgroundColor: "background.paper",
-                },
-                "&::before": {
-                  content: '""',
-                  position: "absolute",
-                  left: "-8px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  height: "60%",
-                  width: "4px",
-                  backgroundColor: "primary.main",
-                  borderRadius: "0 4px 4px 0",
-                },
-              },
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: open ? 2 : "auto",
-                justifyContent: "center",
-                color: (theme) =>
-                  location.pathname === "/settings"
-                    ? theme.palette.primary.main
-                    : theme.palette.text.secondary,
-              }}
-            >
-              <SettingsIcon />
-            </ListItemIcon>
-            {open && (
-              <ListItemText
-                primary="Настройки"
-                sx={{
-                  opacity: open ? 1 : 0,
-                  "& .MuiTypography-root": {
-                    fontWeight: location.pathname === "/settings" ? 600 : 500,
-                    fontSize: "0.95rem",
-                    color: (theme) =>
-                      location.pathname === "/settings"
-                        ? theme.palette.primary.main
-                        : theme.palette.text.primary,
-                  },
-                }}
-              />
-            )}
-          </ListItemButton>
-        </ListItem>
-      </List>
-      <Divider sx={{ opacity: 0.5 }} />
+      <Divider sx={{ opacity: 0.5,  marginTop: "auto", }} />
       <List sx={{ padding: "8px" }}>
         <ListItemButton
           onClick={handleProfileClick}

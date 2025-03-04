@@ -14,10 +14,10 @@ import Invoices from "@pages/invoices";
 import Invoice from "@pages/invoices/Invoice";
 import InvoicePreview from "@pages/invoices/InvoicePreview";
 import Sales from "@pages/sales";
-import Settings from "@pages/settings";
 import Articles from "@pages/articles";
 import Article from "@pages/articles/Article";
 import Sale from "@pages/sales/Sale";
+import Clients from './pages/clients';
 
 // styles
 import "@assets/scss/app.scss";
@@ -42,10 +42,10 @@ function App() {
           <Route path="/sales" element={<Sales />} />
           <Route path="/sales/new" element={<Sale />} />
           <Route path="/sales/edit/:id" element={<Sale />} />
-          <Route path="/settings" element={<Settings />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/articles/new" element={<Article />} />
           <Route path="/articles/edit/:id" element={<Article />} />
+          <Route path="/clients" element={<Clients />} />
         </Route>
 
         <Route path="/not-authorized" element={<NotAuthorized />} />

@@ -3,57 +3,33 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogContentText,
   DialogActions,
-  Button,
-  Typography,
+  Button
 } from '@mui/material';
 
-export default function DeleteConfirmationDialog({ 
-  open, 
-  onClose, 
-  onConfirm, 
-  title = "Потвърждение за изтриване",
-  itemName 
-}) {
+export default function DeleteConfirmationDialog({ open, onClose, onConfirm, itemName }) {
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      PaperProps={{
-        elevation: 0,
-        sx: {
-          borderRadius: 2,
-          minWidth: 400,
-        }
-      }}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
     >
-      <DialogTitle sx={{ pb: 1 }}>
-        {title}
+      <DialogTitle id="alert-dialog-title">
+        Потвърждение за изтриване
       </DialogTitle>
       <DialogContent>
-        <Typography>
-          Сигурни ли сте, че искате да изтриете{' '}
-          <Typography component="span" fontWeight={600}>
-            {itemName}
-          </Typography>
-          ?
+        <DialogContentText id="alert-dialog-description">
+          Сигурни ли сте, че искате да изтриете {itemName}?
           Това действие не може да бъде отменено.
-        </Typography>
+        </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 3 }}>
-        <Button
-          onClick={onClose}
-          variant="outlined"
-          sx={{ textTransform: 'none' }}
-        >
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
           Отказ
         </Button>
-        <Button
-          onClick={onConfirm}
-          variant="contained"
-          color="error"
-          sx={{ textTransform: 'none' }}
-        >
+        <Button onClick={onConfirm} color="error" autoFocus>
           Изтрий
         </Button>
       </DialogActions>
