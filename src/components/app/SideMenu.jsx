@@ -20,31 +20,31 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import CategoryIcon from "@mui/icons-material/Category";
 import StoreIcon from "@mui/icons-material/Store";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { useTheme } from '@mui/material/styles';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { useTheme } from "@mui/material/styles";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const MENU_ITEMS = [
   {
     name: "Табло",
     icon: <DashboardIcon />,
-    path: "/"
+    path: "/",
   },
   {
     name: "Фактури",
     icon: <InsertDriveFileIcon />,
-    path: "/invoices"
+    path: "/invoices",
   },
   {
     name: "Артикули",
     icon: <CategoryIcon />,
-    path: "/articles"
+    path: "/articles",
   },
   {
     name: "Продажби",
     icon: <StoreIcon />,
-    path: "/sales"
+    path: "/sales",
   },
 ];
 
@@ -73,24 +73,25 @@ export default function SideMenu({ width, open, onToggle }) {
         display: { xs: "none", sm: "block" },
         "& .MuiDrawer-paper": {
           boxSizing: "border-box",
-          width: open ? `${width}px` : '64px',
+          width: open ? `${width}px` : "64px",
           backgroundColor: "background.default",
           borderRight: (theme) => `1px solid ${theme.palette.divider}`,
-          overflowX: 'hidden',
-          transition: (theme) => theme.transitions.create(['width'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
+          overflowX: "hidden",
+          transition: (theme) =>
+            theme.transitions.create(["width"], {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.enteringScreen,
+            }),
         },
       }}
       open
     >
-      <Toolbar 
-        sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          minHeight: '64px!important',
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          minHeight: "64px!important",
           px: 2,
         }}
       >
@@ -99,9 +100,9 @@ export default function SideMenu({ width, open, onToggle }) {
             variant="h6"
             sx={{
               fontWeight: 600,
-              color: 'primary.main',
+              color: "primary.main",
               letterSpacing: 1,
-              transition: theme.transitions.create(['opacity', 'width'], {
+              transition: theme.transitions.create(["opacity", "width"], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,
               }),
@@ -110,11 +111,11 @@ export default function SideMenu({ width, open, onToggle }) {
             ФМИ
           </Typography>
         )}
-        <IconButton 
+        <IconButton
           onClick={onToggle}
-          sx={{ 
-            ml: open ? 0 : 'auto',
-            mr: open ? 0 : 'auto'
+          sx={{
+            ml: open ? 0 : "auto",
+            mr: open ? 0 : "auto",
           }}
         >
           {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -131,7 +132,7 @@ export default function SideMenu({ width, open, onToggle }) {
                 gap: "12px",
                 borderRadius: 1,
                 minHeight: 44,
-                justifyContent: open ? 'initial' : 'center',
+                justifyContent: open ? "initial" : "center",
                 px: 2.5,
                 transition: "all 0.2s ease-in-out",
                 position: "relative",
@@ -155,25 +156,25 @@ export default function SideMenu({ width, open, onToggle }) {
                     width: "4px",
                     backgroundColor: "primary.main",
                     borderRadius: "0 4px 4px 0",
-                  }
+                  },
                 },
               }}
             >
-              <ListItemIcon 
-                sx={{ 
+              <ListItemIcon
+                sx={{
                   minWidth: 0,
-                  mr: open ? 2 : 'auto',
-                  justifyContent: 'center',
-                  color: (theme) => 
-                    location.pathname === path 
-                      ? theme.palette.primary.main 
+                  mr: open ? 2 : "auto",
+                  justifyContent: "center",
+                  color: (theme) =>
+                    location.pathname === path
+                      ? theme.palette.primary.main
                       : theme.palette.text.secondary,
                 }}
               >
                 {icon}
               </ListItemIcon>
               {open && (
-                <ListItemText 
+                <ListItemText
                   primary={name}
                   sx={{
                     opacity: open ? 1 : 0,
@@ -184,7 +185,7 @@ export default function SideMenu({ width, open, onToggle }) {
                         location.pathname === path
                           ? theme.palette.primary.main
                           : theme.palette.text.primary,
-                    }
+                    },
                   }}
                 />
               )}
@@ -207,7 +208,7 @@ export default function SideMenu({ width, open, onToggle }) {
               gap: "12px",
               borderRadius: 1,
               minHeight: 44,
-              justifyContent: open ? 'initial' : 'center',
+              justifyContent: open ? "initial" : "center",
               px: 2.5,
               transition: "all 0.2s ease-in-out",
               position: "relative",
@@ -231,25 +232,25 @@ export default function SideMenu({ width, open, onToggle }) {
                   width: "4px",
                   backgroundColor: "primary.main",
                   borderRadius: "0 4px 4px 0",
-                }
+                },
               },
             }}
           >
-            <ListItemIcon 
-              sx={{ 
+            <ListItemIcon
+              sx={{
                 minWidth: 0,
-                mr: open ? 2 : 'auto',
-                justifyContent: 'center',
-                color: (theme) => 
+                mr: open ? 2 : "auto",
+                justifyContent: "center",
+                color: (theme) =>
                   location.pathname === "/settings"
-                    ? theme.palette.primary.main 
+                    ? theme.palette.primary.main
                     : theme.palette.text.secondary,
               }}
             >
               <SettingsIcon />
             </ListItemIcon>
             {open && (
-              <ListItemText 
+              <ListItemText
                 primary="Настройки"
                 sx={{
                   opacity: open ? 1 : 0,
@@ -260,7 +261,7 @@ export default function SideMenu({ width, open, onToggle }) {
                       location.pathname === "/settings"
                         ? theme.palette.primary.main
                         : theme.palette.text.primary,
-                  }
+                  },
                 }}
               />
             )}
@@ -268,24 +269,40 @@ export default function SideMenu({ width, open, onToggle }) {
         </ListItem>
       </List>
       <Divider sx={{ opacity: 0.5 }} />
-      <Box
-        sx={{
-          p: 2,
-          transition: theme.transitions.create(['width'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-        }}
-      >
+      <List sx={{ padding: "8px" }}>
         <ListItemButton
           onClick={handleProfileClick}
           sx={{
+            gap: "12px",
             borderRadius: 1,
+            minHeight: 44,
+            justifyContent: open ? "initial" : "center",
             p: 1,
             mb: 1,
-            '&:hover': {
-              backgroundColor: 'action.hover',
-            }
+            transition: "all 0.2s ease-in-out",
+            position: "relative",
+            "&:hover": {
+              backgroundColor: "action.hover",
+              transform: open ? "translateX(4px)" : "none",
+            },
+            "&.Mui-selected": {
+              backgroundColor: "background.paper",
+              boxShadow: 1,
+              "&:hover": {
+                backgroundColor: "background.paper",
+              },
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                left: "-8px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                height: "60%",
+                width: "4px",
+                backgroundColor: "primary.main",
+                borderRadius: "0 4px 4px 0",
+              },
+            },
           }}
         >
           <Stack
@@ -293,27 +310,32 @@ export default function SideMenu({ width, open, onToggle }) {
             alignItems="center"
             spacing={2}
             sx={{
-              width: '100%',
-              overflow: 'hidden'
+              width: "100%",
+              overflow: "hidden",
             }}
           >
-            <Avatar 
-              sx={{ 
-                width: 40, 
-                height: 40,
-                bgcolor: 'primary.main'
+            <Avatar
+              sx={{
+                width: open ? 40 : 30,
+                height: open ? 40 : 30,
+                fontSize: open ? "1.2rem" : "0.8rem",
+                bgcolor: "primary.main",
+                transition: theme.transitions.create(["width", "height"], {
+                  easing: theme.transitions.easing.sharp,
+                  duration: theme.transitions.duration.enteringScreen,
+                }),
               }}
             >
               ИА
             </Avatar>
             {open && (
-              <Box sx={{ overflow: 'hidden' }}>
+              <Box sx={{ overflow: "hidden" }}>
                 <Typography
                   variant="subtitle2"
                   noWrap
                   sx={{
                     fontWeight: 600,
-                    color: 'text.primary',
+                    color: "text.primary",
                     lineHeight: 1.2,
                   }}
                 >
@@ -323,7 +345,7 @@ export default function SideMenu({ width, open, onToggle }) {
                   variant="caption"
                   noWrap
                   sx={{
-                    color: 'text.secondary',
+                    color: "text.secondary",
                     lineHeight: 1.2,
                   }}
                 >
@@ -334,37 +356,64 @@ export default function SideMenu({ width, open, onToggle }) {
           </Stack>
         </ListItemButton>
 
-        {/* Logout Button */}
-        {open && (
-          <ListItemButton
-            onClick={handleLogout}
+        <ListItemButton
+          onClick={() => {
+            alert("logout");
+          }}
+          sx={{
+            gap: "12px",
+            borderRadius: 1,
+            minHeight: 44,
+            justifyContent: open ? "initial" : "center",
+            px: 2.5,
+            transition: "all 0.2s ease-in-out",
+            position: "relative",
+            "&:hover": {
+              backgroundColor: "action.hover",
+              transform: open ? "translateX(4px)" : "none",
+            },
+            "&.Mui-selected": {
+              backgroundColor: "background.paper",
+              boxShadow: 1,
+              "&:hover": {
+                backgroundColor: "background.paper",
+              },
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                left: "-8px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                height: "60%",
+                width: "4px",
+                backgroundColor: "primary.main",
+                borderRadius: "0 4px 4px 0",
+              },
+            },
+          }}
+        >
+          <ListItemIcon
             sx={{
-              borderRadius: 1,
-              py: 0.5,
-              '&:hover': {
-                backgroundColor: 'action.hover',
-              }
+              minWidth: 0,
+              mr: open ? 2 : "auto",
+              justifyContent: "center",
             }}
           >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: 2,
-                color: 'text.secondary',
-              }}
-            >
-              <LogoutIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText 
+            <LogoutIcon />
+          </ListItemIcon>
+          {open && (
+            <ListItemText
               primary="Изход"
-              primaryTypographyProps={{
-                fontSize: '0.875rem',
-                color: 'text.secondary'
+              sx={{
+                opacity: open ? 1 : 0,
+                "& .MuiTypography-root": {
+                  fontSize: "0.95rem",
+                },
               }}
             />
-          </ListItemButton>
-        )}
-      </Box>
+          )}
+        </ListItemButton>
+      </List>
     </Drawer>
   );
 }
