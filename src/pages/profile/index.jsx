@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -16,15 +16,19 @@ import {
   FormControlLabel,
   Switch,
   InputAdornment,
+  Tooltip,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import SecurityIcon from "@mui/icons-material/Security";
 import BusinessIcon from "@mui/icons-material/Business";
 import PersonIcon from "@mui/icons-material/Person";
-import SettingsIcon from "@mui/icons-material/Settings";
+import NightsStayIcon from "@mui/icons-material/NightsStay";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import { useColorMode } from "../../contexts/ThemeContext";
 
 // TabPanel component for handling tab content
 function TabPanel({ children, value, index, ...other }) {
@@ -43,6 +47,8 @@ function TabPanel({ children, value, index, ...other }) {
 
 export default function Profile() {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const colorMode = useColorMode();
   const [tabValue, setTabValue] = useState(0);
   const [personalInfo, setPersonalInfo] = useState({
     firstName: "Илиян",
@@ -69,12 +75,8 @@ export default function Profile() {
     confirmPassword: "",
   });
 
-  const [preferences, setPreferences] = useState({
-    darkMode: false,
-    emailNotifications: true,
-    autoSave: true,
-    language: "bg",
-  });
+  // Get dark mode state from context
+  const isDarkMode = colorMode.mode === "dark";
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -104,12 +106,8 @@ export default function Profile() {
     }));
   };
 
-  const handlePreferencesChange = (e) => {
-    const { name, checked } = e.target;
-    setPreferences((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
+  const handleToggleDarkMode = () => {
+    colorMode.toggleColorMode();
   };
 
   const handleSavePersonalInfo = () => {
@@ -127,25 +125,29 @@ export default function Profile() {
     console.log("Changing password:", securityInfo);
   };
 
-  const handleSavePreferences = () => {
-    // TODO: Save preferences API call
-    console.log("Saving preferences:", preferences);
-  };
-
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-        <IconButton
-          edge="start"
-          onClick={() => navigate(-1)}
-          sx={{ mr: 2 }}
-          aria-label="back"
-        >
-          <ArrowBackIcon />
-        </IconButton>
-        <Typography variant="h4" component="h1" fontWeight={600}>
-          Профил и настройки
-        </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 3 }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <IconButton
+            edge="start"
+            onClick={() => navigate(-1)}
+            sx={{ mr: 2 }}
+            aria-label="back"
+          >
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h4" component="h1" fontWeight={600}>
+            Профил и настройки
+          </Typography>
+        </Box>
+
+        {/* Dark mode toggle moved to header */}
+        <Tooltip title={isDarkMode ? "Светла тема" : "Тъмна тема"}>
+          <IconButton onClick={handleToggleDarkMode} color="inherit">
+            {isDarkMode ? <WbSunnyIcon /> : <NightsStayIcon />}
+          </IconButton>
+        </Tooltip>
       </Box>
 
       <Paper
@@ -176,15 +178,14 @@ export default function Profile() {
               label="Лична информация"
               iconPosition="start"
             />
-            <Tab icon={<BusinessIcon />} label="Фирма" iconPosition="start" />
             <Tab
-              icon={<SecurityIcon />}
-              label="Сигурност"
+              icon={<BusinessIcon />}
+              label="Фирма"
               iconPosition="start"
             />
             <Tab
-              icon={<SettingsIcon />}
-              label="Настройки"
+              icon={<SecurityIcon />}
+              label="Сигурност"
               iconPosition="start"
             />
           </Tabs>
@@ -516,98 +517,6 @@ export default function Profile() {
                 }
               >
                 Смени паролата
-              </Button>
-            </Grid>
-          </Grid>
-        </TabPanel>
-
-        {/* Preferences Tab */}
-        <TabPanel value={tabValue} index={3}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" fontWeight={500} gutterBottom>
-                Настройки на интерфейса
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 2,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 1,
-                }}
-              >
-                <Stack spacing={2}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={preferences.darkMode}
-                        onChange={handlePreferencesChange}
-                        name="darkMode"
-                        color="primary"
-                      />
-                    }
-                    label="Тъмен режим"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={preferences.autoSave}
-                        onChange={handlePreferencesChange}
-                        name="autoSave"
-                        color="primary"
-                      />
-                    }
-                    label="Автоматично запазване"
-                  />
-                </Stack>
-              </Paper>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Typography
-                variant="subtitle1"
-                fontWeight={500}
-                gutterBottom
-                sx={{ mt: 2 }}
-              >
-                Регионални настройки
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                select
-                fullWidth
-                label="Език"
-                name="language"
-                value={preferences.language}
-                onChange={(e) =>
-                  setPreferences((prev) => ({
-                    ...prev,
-                    language: e.target.value,
-                  }))
-                }
-                variant="outlined"
-                size="small"
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                <option value="bg">Български</option>
-                <option value="en">English</option>
-              </TextField>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                startIcon={<SaveIcon />}
-                onClick={handleSavePreferences}
-                sx={{ mt: 2 }}
-              >
-                Запази настройките
               </Button>
             </Grid>
           </Grid>
