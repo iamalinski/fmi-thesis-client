@@ -64,7 +64,7 @@ export default function SideMenu({ width, open, onToggle }) {
   };
 
   const handleProfileClick = () => {
-    // Navigate to profile page or open profile modal
+    navigate("/profile");
   };
 
   const handleLogout = (e) => {

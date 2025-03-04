@@ -18,6 +18,7 @@ import Articles from "@pages/articles";
 import Article from "@pages/articles/Article";
 import Sale from "@pages/sales/Sale";
 import Clients from './pages/clients';
+import Profile from './pages/profile';
 
 // styles
 import "@assets/scss/app.scss";
@@ -46,6 +47,7 @@ function App() {
           <Route path="/articles/new" element={<Article />} />
           <Route path="/articles/edit/:id" element={<Article />} />
           <Route path="/clients" element={<Clients />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         <Route path="/not-authorized" element={<NotAuthorized />} />
