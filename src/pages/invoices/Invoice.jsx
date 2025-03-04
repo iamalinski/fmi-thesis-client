@@ -277,20 +277,20 @@ const ArticlesTable = React.memo(({ items, onItemChange, onItemRemove, onItemAdd
             <Stack direction="row" justifyContent="space-between">
               <Typography>Сума:</Typography>
               <Typography fontWeight="500">
-                {items.reduce((sum, item) => sum + (item.totalPrice || 0), 0).toFixed(2)} лв.
+                {items.reduce((sum, item) => sum + (item.totalPrice || 0), 0).toFixed(2)} BGN.
               </Typography>
             </Stack>
             <Stack direction="row" justifyContent="space-between">
               <Typography>ДДС (20%):</Typography>
               <Typography fontWeight="500">
-                {(items.reduce((sum, item) => sum + (item.totalPrice || 0), 0) * 0.2).toFixed(2)} лв.
+                {(items.reduce((sum, item) => sum + (item.totalPrice || 0), 0) * 0.2).toFixed(2)} BGN.
                 </Typography>
             </Stack>
             <Divider />
             <Stack direction="row" justifyContent="space-between">
               <Typography fontWeight="500">Общо:</Typography>
               <Typography fontWeight="600">
-                {(items.reduce((sum, item) => sum + (item.totalPrice || 0), 0) * 1.2).toFixed(2)} лв.
+                {(items.reduce((sum, item) => sum + (item.totalPrice || 0), 0) * 1.2).toFixed(2)} BGN.
                 </Typography>
             </Stack>
           </Stack>

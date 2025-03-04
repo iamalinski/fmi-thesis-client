@@ -31,12 +31,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from "react-router-dom";
+import DeleteConfirmationDialog from '../../components/common/DeleteConfirmationDialog';
 
 const mockArticles = Array.from({ length: 50 }, (_, index) => ({
   id: `ART-${String(index + 1).padStart(4, "0")}`,
   name: `Артикул ${index + 1}`,
   price: (Math.random() * 1000).toFixed(2),
-  stock: Math.floor(Math.random() * 100),
   status: ["active", "inactive"][Math.floor(Math.random() * 2)],
 }));
 
@@ -60,6 +60,8 @@ export default function Articles() {
     search: "",
     status: "all",
   });
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [articleToDelete, setArticleToDelete] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -90,13 +92,26 @@ export default function Articles() {
   };
 
   const handleEdit = () => {
-    console.log("Edit article:", selectedArticle);
+    navigate(`/articles/edit/${selectedArticle.id}`);
     handleCloseMenu();
   };
 
-  const handleDelete = () => {
-    console.log("Delete article:", selectedArticle);
+  const handleDeleteClick = (article) => {
+    setArticleToDelete(article);
+    setDeleteDialogOpen(true);
     handleCloseMenu();
+  };
+
+  const handleDeleteConfirm = () => {
+    // TODO: Implement delete API call
+    console.log('Deleting article:', articleToDelete.id);
+    setDeleteDialogOpen(false);
+    setArticleToDelete(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+    setArticleToDelete(null);
   };
 
   const handleFilterChange = (event) => {
@@ -249,9 +264,6 @@ export default function Articles() {
                 <TableCell sx={{ fontWeight: 600, width: "120px" }} align="right">
                   Цена
                 </TableCell>
-                <TableCell sx={{ fontWeight: 600, width: "100px" }} align="right">
-                  Наличност
-                </TableCell>
                 <TableCell sx={{ fontWeight: 600, width: "100px" }}>
                   Статус
                 </TableCell>
@@ -278,9 +290,6 @@ export default function Articles() {
                     <TableCell>{article.name}</TableCell>
                     <TableCell align="right">
                       {article.price} BGN
-                    </TableCell>
-                    <TableCell align="right">
-                      {article.stock} бр.
                     </TableCell>
                     <TableCell>
                       <Chip
@@ -344,25 +353,29 @@ export default function Articles() {
           },
         }}
       >
-        <MenuItem onClick={handleView}>
-          <ListItemIcon>
-            <VisibilityIcon fontSize="small" color="primary" />
-          </ListItemIcon>
-          <ListItemText>Преглед</ListItemText>
-        </MenuItem>
         <MenuItem onClick={handleEdit}>
           <ListItemIcon>
             <EditIcon fontSize="small" color="warning" />
           </ListItemIcon>
           <ListItemText>Редакция</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleDelete}>
+        <MenuItem 
+          onClick={() => handleDeleteClick(selectedArticle)}
+          sx={{ color: 'error.main' }}
+        >
           <ListItemIcon>
             <DeleteIcon fontSize="small" color="error" />
           </ListItemIcon>
           <ListItemText>Изтрий</ListItemText>
         </MenuItem>
       </Menu>
+
+      <DeleteConfirmationDialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        itemName={`артикул ${articleToDelete?.name}`}
+      />
     </Box>
   );
 }
