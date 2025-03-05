@@ -13,10 +13,10 @@ import PublicRoute from "@components/routes/PublicRoute";
 import Invoices from "@pages/invoices";
 import Invoice from "@pages/invoices/Invoice";
 import InvoicePreview from "@pages/invoices/InvoicePreview";
-import Sales from "@pages/sales";
+// import Sales from "@pages/sales";
+// import Sale from "@pages/sales/Sale";
 import Articles from "@pages/articles";
 import Article from "@pages/articles/Article";
-import Sale from "@pages/sales/Sale";
 import Clients from './pages/clients';
 import Profile from './pages/profile';
 
@@ -40,9 +40,8 @@ function App() {
           <Route path="/invoices/new" element={<Invoice />} />
           <Route path="/invoices/:id" element={<InvoicePreview />} />
           <Route path="/invoices/edit/:id" element={<Invoice />} />
-          <Route path="/sales" element={<Sales />} />
-          <Route path="/sales/new" element={<Sale />} />
-          <Route path="/sales/edit/:id" element={<Sale />} />
+          {/* <Route path="/sales" element={<Sales />} />
+          <Route path="/sales/new" element={<Sale />} /> */}
           <Route path="/articles" element={<Articles />} />
           <Route path="/articles/new" element={<Article />} />
           <Route path="/articles/edit/:id" element={<Article />} />

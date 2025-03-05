@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CategoryIcon from "@mui/icons-material/Category";
-import StoreIcon from "@mui/icons-material/Store";
+// import StoreIcon from "@mui/icons-material/Store";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useTheme } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -42,11 +42,11 @@ const MENU_ITEMS = [
     icon: <CategoryIcon />,
     path: "/articles",
   },
-  {
-    name: "Продажби",
-    icon: <StoreIcon />,
-    path: "/sales",
-  },
+  // {
+  //   name: "Продажби",
+  //   icon: <StoreIcon />,
+  //   path: "/sales",
+  // },
   {
     name: "Клиенти",
     icon: <PeopleIcon />,

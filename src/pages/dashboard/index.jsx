@@ -50,11 +50,11 @@ const topProducts = [
 
 // New mock data for the requested statistics
 const topClients = [
-  { id: 1, name: 'Мега Индъстрийз ООД', totalSpent: '28,750.00', ordersCount: 15, avatarColor: '#3f51b5' },
-  { id: 2, name: 'Техно Солюшънс АД', totalSpent: '21,340.00', ordersCount: 12, avatarColor: '#f44336' },
-  { id: 3, name: 'Експрес Логистикс ЕООД', totalSpent: '18,920.00', ordersCount: 9, avatarColor: '#4caf50' },
-  { id: 4, name: 'Строй Инвест ООД', totalSpent: '15,780.00', ordersCount: 7, avatarColor: '#ff9800' },
-  { id: 5, name: 'Алфа Дизайн АД', totalSpent: '12,450.00', ordersCount: 5, avatarColor: '#9c27b0' },
+  { id: 1, name: 'Мега Индъстрийз ООД', totalSpent: '28,750.00', invoicesCount: 18, avatarColor: '#3f51b5' },
+  { id: 2, name: 'Техно Солюшънс АД', totalSpent: '21,340.00', invoicesCount: 14, avatarColor: '#f44336' },
+  { id: 3, name: 'Експрес Логистикс ЕООД', totalSpent: '18,920.00', invoicesCount: 11, avatarColor: '#4caf50' },
+  { id: 4, name: 'Строй Инвест ООД', totalSpent: '15,780.00', invoicesCount: 9, avatarColor: '#ff9800' },
+  { id: 5, name: 'Алфа Дизайн АД', totalSpent: '12,450.00', invoicesCount: 7, avatarColor: '#9c27b0' },
 ];
 
 const bestSales = [
@@ -245,8 +245,8 @@ export default function Dashboard() {
                             {client.totalSpent} BGN
                           </Typography>
                           <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
-                            <ShoppingCartIcon fontSize="small" sx={{ mr: 0.5, fontSize: '1rem' }} />
-                            {client.ordersCount} поръчки
+                            <ReceiptIcon fontSize="small" sx={{ mr: 0.5, fontSize: '1rem' }} />
+                            {client.invoicesCount} фактури
                           </Typography>
                         </Box>
                       }
@@ -259,55 +259,7 @@ export default function Dashboard() {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 3,
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: 2,
-            }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                Най-добри продажби
-              </Typography>
-            </Box>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Номер</TableCell>
-                  <TableCell>Клиент</TableCell>
-                  <TableCell align="right">Сума</TableCell>
-                  <TableCell align="right">Артикули</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {bestSales.map((sale) => (
-                  <TableRow key={sale.id} hover>
-                    <TableCell>
-                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                        {sale.id}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {formatDate(sale.date)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>{sale.client}</TableCell>
-                    <TableCell align="right">{sale.amount} BGN</TableCell>
-                    <TableCell align="right">{sale.items}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-        </Grid>
-      </Grid>
-
-      {/* Second row of statistics */}
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={7}>
-          <Paper
+        <Paper
             elevation={0}
             sx={{
               p: 3,
@@ -350,59 +302,8 @@ export default function Dashboard() {
             </Table>
           </Paper>
         </Grid>
-
-        <Grid item xs={12} md={5}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 3,
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: 2,
-            }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                Последни продажби
-              </Typography>
-              <IconButton size="small">
-                <MoreVertIcon fontSize="small" />
-              </IconButton>
-            </Box>
-            <List sx={{ pt: 0 }}>
-              {latestSales.map((sale, index) => (
-                <React.Fragment key={sale.id}>
-                  {index > 0 && <Divider component="li" />}
-                  <ListItem sx={{ px: 0 }}>
-                    <ListItemText
-                      primary={
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                            {sale.id}
-                          </Typography>
-                          <Typography variant="subtitle2" color="primary">
-                            {sale.amount} BGN
-                          </Typography>
-                        </Box>
-                      }
-                      secondary={
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 0.5 }}>
-                          <Typography variant="body2" color="text.secondary">
-                            {sale.client}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {formatDate(sale.date)}
-                          </Typography>
-                        </Box>
-                      }
-                    />
-                  </ListItem>
-                </React.Fragment>
-              ))}
-            </List>
-          </Paper>
-        </Grid>
       </Grid>
+
 
       {/* Final row for top products - Changed to display products in rows instead of grid */}
       <Grid container spacing={3} sx={{ mt: 3 }}>
