@@ -12,6 +12,7 @@ import {
   Divider,
   useTheme,
   CircularProgress,
+  Grid,
   Avatar,
   styled,
 } from "@mui/material";
@@ -20,10 +21,11 @@ import {
   Email,
   Visibility,
   VisibilityOff,
-  Login as LoginIcon,
+  Person,
+  HowToReg,
   ArrowForward,
 } from "@mui/icons-material";
-import { useLogin } from "../../hooks/login/useLogin";
+import { useRegister } from "../../hooks/register/useRegister";
 
 // Custom styled components for enhanced visual appeal
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -48,23 +50,41 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-export default function Login() {
+export default function Register() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const theme = useTheme();
 
-  const loginMutation = useLogin({
+  const registerMutation = useRegister({
     onError: (error) => {
-      setError(error.response?.data?.message || "Възникна грешка при влизането");
+      setError(
+        error.response?.data?.message || "Възникна грешка при регистрацията"
+      );
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-    loginMutation.mutate({ email, password });
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      setError("Паролите не съвпадат");
+      return;
+    }
+
+    registerMutation.mutate({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
   };
 
   return (
@@ -154,7 +174,7 @@ export default function Login() {
                 border: "4px solid rgba(255,255,255,0.3)",
               }}
             >
-              <LoginIcon
+              <HowToReg
                 fontSize="large"
                 style={{ color: theme.palette.primary.main, fontSize: 42 }}
               />
@@ -166,14 +186,14 @@ export default function Login() {
               fontWeight="600"
               sx={{ letterSpacing: 0.5 }}
             >
-              Вход
+              Регистрация
             </Typography>
             <Typography
               color="white"
               variant="subtitle1"
               sx={{ opacity: 0.9, fontWeight: 300, letterSpacing: 0.5 }}
             >
-              Влезте в своя акаунт, за да продължите
+              Създайте акаунт и започнете вашето пътешествие
             </Typography>
           </Box>
 
@@ -208,6 +228,43 @@ export default function Login() {
             )}
 
             <form onSubmit={handleSubmit}>
+              <Grid container spacing={2.5}>
+                <Grid item xs={12} sm={6}>
+                  <StyledTextField
+                    label="Име"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Person sx={{ color: theme.palette.primary.main }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <StyledTextField
+                    label="Фамилия"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Person sx={{ color: theme.palette.primary.main }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+              </Grid>
+
               <StyledTextField
                 label="Е-поща"
                 variant="outlined"
@@ -217,6 +274,7 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                sx={{ mt: 3 }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -255,48 +313,48 @@ export default function Login() {
                   ),
                 }}
               />
-              
-              {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5, mb: 2 }}>
-                <Link 
-                  href="/forgot-password" 
-                  variant="body2"
-                  underline="none"
-                  sx={{
-                    color: theme.palette.text.secondary,
-                    fontWeight: "500",
-                    transition: "all 0.2s",
-                    position: "relative",
-                    "&:hover": {
-                      color: theme.palette.primary.main,
-                    },
-                    "&:after": {
-                      content: '""',
-                      position: "absolute",
-                      width: 0,
-                      height: "2px",
-                      bottom: -2,
-                      left: 0,
-                      background: theme.palette.primary.main,
-                      transition: "width 0.3s ease",
-                    },
-                    "&:hover:after": {
-                      width: "100%",
-                    },
-                  }}
-                >
-                  Забравена парола?
-                </Link>
-              </Box> */}
+
+              <StyledTextField
+                label="Потвърди парола"
+                type={showConfirmPassword ? "text" : "password"}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                sx={{ mt: 3, mb: 1 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Lock sx={{ color: theme.palette.primary.main }} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        edge="end"
+                        sx={{ color: theme.palette.text.secondary }}
+                      >
+                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
 
               <Button
                 type="submit"
                 variant="contained"
                 fullWidth
                 size="large"
-                disabled={loginMutation.isLoading}
+                disabled={registerMutation.isLoading}
                 sx={{
-                  mt: 3,
-                  mb: 1,
+                  mt: 5,
+                  mb: 3,
                   py: 1.8,
                   borderRadius: 3,
                   textTransform: "none",
@@ -328,9 +386,9 @@ export default function Login() {
                     transform: "translateY(1px)",
                   },
                 }}
-                endIcon={!loginMutation.isLoading && <ArrowForward />}
+                endIcon={!registerMutation.isLoading && <ArrowForward />}
               >
-                {loginMutation.isLoading ? (
+                {registerMutation.isLoading ? (
                   <Box
                     sx={{
                       display: "flex",
@@ -345,7 +403,7 @@ export default function Login() {
                     />
                   </Box>
                 ) : (
-                  "Вход"
+                  "Регистрирай се"
                 )}
               </Button>
 
@@ -384,10 +442,10 @@ export default function Login() {
                   color="text.secondary"
                   sx={{ fontWeight: 500 }}
                 >
-                  Нямаш профил?{" "}
+                  Вече имаш профил?{" "}
                 </Typography>
                 <Link
-                  href="/register"
+                  href="/login"
                   variant="body1"
                   underline="none"
                   sx={{
@@ -413,7 +471,7 @@ export default function Login() {
                     },
                   }}
                 >
-                  Регистрирай се
+                  Влез в системата
                 </Link>
               </Box>
             </form>
