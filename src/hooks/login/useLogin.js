@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import api from "@helpers/axios";
-import { useNavigate } from "react-router-dom"; // If using react-router
+import { useAuth } from "@contexts/AuthContext";
 
-// Helper function to handle auth token
+// Helper function to handle auth token - keeping this for compatibility
 const authToken = {
   set: (token) => localStorage.setItem("token", token),
   get: () => localStorage.getItem("token"),
@@ -10,7 +10,7 @@ const authToken = {
 };
 
 export const useLogin = (options = {}) => {
-  const navigate = useNavigate(); // If using react-router
+  const { setUser } = useAuth();
 
   return useMutation({
     mutationFn: async (credentials) => {
@@ -26,19 +26,12 @@ export const useLogin = (options = {}) => {
       }
     },
     onSuccess: (data, variables, context) => {
-      // Save the token
+      // Save the token - keeping existing method
       authToken.set(data.token);
 
-      // Handle user data if available
+      // Update user in auth context
       if (data.user) {
-        // Optional: Store user data in a global state or context
-      }
-
-      // Redirect using react-router (preferred) or fallback to window.location
-      if (navigate) {
-        navigate(options.redirectTo || "/dashboard");
-      } else {
-        window.location.href = options.redirectTo || "/dashboard";
+        setUser(data.user);
       }
 
       // Call optional success callback

@@ -2,12 +2,13 @@ import axios from "axios";
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: "http://localhost/fmi-thesis/api",
+  baseURL: "http://localhost/fmi-thesis/public/api",
   headers: {
     "Content-Type": "application/json",
-    Accept: "application/json",
+    // Accept: "application/json",
   },
-  withCredentials: true, // Needed for cookies/authentication
+  withCredentials: true,
+  withXSRFToken: true,
 });
 
 // Request interceptor - useful for adding auth tokens

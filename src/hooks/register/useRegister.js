@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import api from "../../helpers/axios";
+import api from "@helpers/axios";
 import { useNavigate } from "react-router-dom";
 
 export const useRegister = (options = {}) => {

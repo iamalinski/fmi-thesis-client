@@ -51,21 +51,56 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 }));
 
 export default function Register() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // Single form data state
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+  });
+
+  // UI state
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const theme = useTheme();
 
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const registerMutation = useRegister({
     onError: (error) => {
-      setError(
-        error.response?.data?.message || "Възникна грешка при регистрацията"
-      );
+      console.log("Registration error:", error);
+      
+      let errorMessage = "Възникна грешка при регистрацията";
+      
+      // Try to extract error message from various possible locations
+      if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      if (error.response) {
+        if (typeof error.response.data === 'string') {
+          errorMessage = error.response.data;
+        } else if (error.response.data) {
+          // Try common error message formats
+          const responseData = error.response.data;
+          errorMessage = 
+            responseData.message || 
+            responseData.error ||
+            (responseData.errors && Object.values(responseData.errors)[0]) ||
+            errorMessage;
+        }
+      }
+      
+      setError(errorMessage);
     },
   });
 
@@ -74,16 +109,17 @@ export default function Register() {
     setError("");
 
     // Validate passwords match
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.passwordConfirmation) {
       setError("Паролите не съвпадат");
       return;
     }
 
     registerMutation.mutate({
-      firstName,
-      lastName,
-      email,
-      password,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      password_confirmation: formData.passwordConfirmation,
     });
   };
 
@@ -235,8 +271,9 @@ export default function Register() {
                     variant="outlined"
                     fullWidth
                     required
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -252,8 +289,9 @@ export default function Register() {
                     variant="outlined"
                     fullWidth
                     required
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -272,8 +310,9 @@ export default function Register() {
                 fullWidth
                 required
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 sx={{ mt: 3 }}
                 InputProps={{
                   startAdornment: (
@@ -291,8 +330,9 @@ export default function Register() {
                 margin="normal"
                 fullWidth
                 required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 sx={{ mt: 3 }}
                 InputProps={{
                   startAdornment: (
@@ -321,8 +361,9 @@ export default function Register() {
                 margin="normal"
                 fullWidth
                 required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                name="passwordConfirmation"
+                value={formData.passwordConfirmation}
+                onChange={handleChange}
                 sx={{ mt: 3, mb: 1 }}
                 InputProps={{
                   startAdornment: (
@@ -339,7 +380,11 @@ export default function Register() {
                         edge="end"
                         sx={{ color: theme.palette.text.secondary }}
                       >
-                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -351,7 +396,7 @@ export default function Register() {
                 variant="contained"
                 fullWidth
                 size="large"
-                disabled={registerMutation.isLoading}
+                disabled={registerMutation.isPending}
                 sx={{
                   mt: 5,
                   mb: 3,
@@ -372,7 +417,8 @@ export default function Register() {
                     left: "-100%",
                     width: "100%",
                     height: "100%",
-                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                    background:
+                      "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
                     transition: "0.5s",
                   },
                   "&:hover": {
@@ -386,9 +432,9 @@ export default function Register() {
                     transform: "translateY(1px)",
                   },
                 }}
-                endIcon={!registerMutation.isLoading && <ArrowForward />}
+                endIcon={!registerMutation.isPending && <ArrowForward />}
               >
-                {registerMutation.isLoading ? (
+                {registerMutation.isPending ? (
                   <Box
                     sx={{
                       display: "flex",
@@ -398,8 +444,7 @@ export default function Register() {
                   >
                     <CircularProgress
                       size={26}
-                      color="inherit"
-                      sx={{ mr: 1.5 }}
+                      sx={{ mr: 1.5, color: "#fff" }}
                     />
                   </Box>
                 ) : (

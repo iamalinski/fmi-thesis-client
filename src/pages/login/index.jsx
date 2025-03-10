@@ -57,10 +57,12 @@ export default function Login() {
 
   const loginMutation = useLogin({
     onError: (error) => {
-      setError(error.response?.data?.message || "Възникна грешка при влизането");
+      setError(
+        error.response?.data?.message || "Възникна грешка при влизането"
+      );
     },
   });
-
+  console.log(loginMutation.isPending);
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
@@ -255,7 +257,7 @@ export default function Login() {
                   ),
                 }}
               />
-              
+
               {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5, mb: 2 }}>
                 <Link 
                   href="/forgot-password" 
@@ -293,7 +295,7 @@ export default function Login() {
                 variant="contained"
                 fullWidth
                 size="large"
-                disabled={loginMutation.isLoading}
+                disabled={loginMutation.isPending}
                 sx={{
                   mt: 3,
                   mb: 1,
@@ -314,7 +316,8 @@ export default function Login() {
                     left: "-100%",
                     width: "100%",
                     height: "100%",
-                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                    background:
+                      "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
                     transition: "0.5s",
                   },
                   "&:hover": {
@@ -328,9 +331,9 @@ export default function Login() {
                     transform: "translateY(1px)",
                   },
                 }}
-                endIcon={!loginMutation.isLoading && <ArrowForward />}
+                endIcon={!loginMutation.isPending && <ArrowForward />}
               >
-                {loginMutation.isLoading ? (
+                {loginMutation.isPending ? (
                   <Box
                     sx={{
                       display: "flex",
@@ -340,8 +343,7 @@ export default function Login() {
                   >
                     <CircularProgress
                       size={26}
-                      color="inherit"
-                      sx={{ mr: 1.5 }}
+                      sx={{ mr: 1.5, color: "#fff" }}
                     />
                   </Box>
                 ) : (

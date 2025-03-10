@@ -25,6 +25,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PeopleIcon from "@mui/icons-material/People";
+import { useAuth } from "@contexts/AuthContext";
 
 const MENU_ITEMS = [
   {
@@ -55,6 +56,8 @@ const MENU_ITEMS = [
 ];
 
 export default function SideMenu({ width, open, onToggle }) {
+  const { logout } = useAuth();
+
   const location = useLocation();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -200,7 +203,7 @@ export default function SideMenu({ width, open, onToggle }) {
         ))}
       </List>
 
-      <Divider sx={{ opacity: 0.5,  marginTop: "auto", }} />
+      <Divider sx={{ opacity: 0.5, marginTop: "auto" }} />
       <List sx={{ padding: "8px" }}>
         <ListItemButton
           onClick={handleProfileClick}
@@ -289,9 +292,7 @@ export default function SideMenu({ width, open, onToggle }) {
         </ListItemButton>
 
         <ListItemButton
-          onClick={() => {
-            alert("logout");
-          }}
+          onClick={logout}
           sx={{
             gap: "12px",
             borderRadius: 1,

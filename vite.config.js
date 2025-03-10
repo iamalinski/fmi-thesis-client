@@ -14,6 +14,7 @@ export default defineConfig({
       "@providers": path.resolve(__dirname, "./src/providers"),
       "@stores": path.resolve(__dirname, "./src/stores"),
       "@helpers": path.resolve(__dirname, "./src/helpers"),
+      "@contexts": path.resolve(__dirname, "./src/contexts"),
     },
   },
 });
