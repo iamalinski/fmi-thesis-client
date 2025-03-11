@@ -11,10 +11,18 @@ export const useRegister = (options = {}) => {
         const response = await api.post("/register", userData);
         return response.data;
       } catch (error) {
-        const errorMessage =
-          error.response?.data?.message ||
-          "Registration failed. Please try again.";
-        throw new Error(errorMessage);
+        // Don't wrap the error response in a new Error
+        // Instead, preserve the structure and throw the original error
+        console.log("Registration API error:", error.response?.data);
+
+        // If there are validation errors, throw the entire response object
+        if (error.response?.data) {
+          // Throw the original error instead of creating a new one
+          throw error;
+        }
+
+        // For network errors or other cases where response might not exist
+        throw error;
       }
     },
     onSuccess: (data, variables, context) => {
@@ -27,7 +35,7 @@ export const useRegister = (options = {}) => {
       }
     },
     onError: (error, variables, context) => {
-      console.error("Registration failed:", error.message);
+      console.error("Registration failed:", error);
 
       // Call optional error callback
       if (options.onError) {
