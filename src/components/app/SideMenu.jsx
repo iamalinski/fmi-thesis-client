@@ -56,7 +56,7 @@ const MENU_ITEMS = [
 ];
 
 export default function SideMenu({ width, open, onToggle }) {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ export default function SideMenu({ width, open, onToggle }) {
     e.stopPropagation(); // Prevent triggering profile click
     // Handle logout logic
   };
-
+  console.log(user)
   return (
     <Drawer
       variant="permanent"
@@ -261,7 +261,7 @@ export default function SideMenu({ width, open, onToggle }) {
                 }),
               }}
             >
-              ИА
+              {`${user.first_name[0] || ""}${user.last_name[0] || ""}`.toUpperCase()}
             </Avatar>
             {open && (
               <Box sx={{ overflow: "hidden" }}>
@@ -274,7 +274,7 @@ export default function SideMenu({ width, open, onToggle }) {
                     lineHeight: 1.2,
                   }}
                 >
-                  Илиян Алински
+                  {`${user.first_name} ${user.last_name}`}
                 </Typography>
                 <Typography
                   variant="caption"
@@ -284,7 +284,7 @@ export default function SideMenu({ width, open, onToggle }) {
                     lineHeight: 1.2,
                   }}
                 >
-                  gandalfcho@gmail.com
+                  {user.email}
                 </Typography>
               </Box>
             )}

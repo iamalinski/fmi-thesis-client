@@ -35,8 +35,8 @@ import {
   Phone,
   AccountBalance,
 } from "@mui/icons-material";
-import { useRegister } from "../../hooks/register/useRegister";
-import api from "../../helpers/axios";
+import { useRegister } from "@hooks/register/useRegister";
+import api from "@helpers/axios";
 import { useNavigate } from "react-router-dom";
 
 // Custom styled components for enhanced visual appeal
@@ -105,10 +105,8 @@ export default function Register() {
       navigate("/login");
     },
     onError: (error) => {
-
-
       let errorMessage = "Възникна грешка при регистрацията";
-      console.log(error.response?.data?.message, error.message, errorMessage);
+    
       if (error.response?.data?.errors) {
         // Map backend validation errors to form fields
         const backendErrors = error.response.data.errors;

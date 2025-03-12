@@ -23,7 +23,7 @@ import {
   Login as LoginIcon,
   ArrowForward,
 } from "@mui/icons-material";
-import { useLogin } from "../../hooks/login/useLogin";
+import { useLogin } from "@hooks/login/useLogin";
 
 // Custom styled components for enhanced visual appeal
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -62,7 +62,7 @@ export default function Login() {
       );
     },
   });
-  console.log(loginMutation.isPending);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");

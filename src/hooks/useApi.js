@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import api from "../api/axios";
+import api from "@helpers/axios";
 
 // Hook for GET requests
 export const useFetch = (endpoint, queryKey, options = {}) => {
