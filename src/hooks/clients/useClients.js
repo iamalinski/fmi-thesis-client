@@ -1,8 +1,10 @@
-import { useFetch, useCreate, useUpdate, useDelete } from "./useApi";
+import { useFetch, useCreate, useUpdate, useDelete } from "@hooks/useApi";
 
 // Hook to fetch all clients
-export const useClients = (options = {}) => {
-  return useFetch("/clients", "clients", options);
+export const useClients = ({ page, limit, search }, options = {}) => {
+  const params = `page=${page}&per_page=${limit}&search=${search}`;
+
+  return useFetch(`/clients?${params}`, ["clients", params], options);
 };
 
 // Hook to fetch a single client by ID

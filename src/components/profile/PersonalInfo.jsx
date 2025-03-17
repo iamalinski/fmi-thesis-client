@@ -82,7 +82,6 @@ export default function PersonalInfo() {
     });
   };
 
-  // Handle closing the success snackbar
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;

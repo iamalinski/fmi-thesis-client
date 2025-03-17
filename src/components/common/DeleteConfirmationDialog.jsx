@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
-  Button
-} from '@mui/material';
+  Button,
+} from "@mui/material";
 
-export default function DeleteConfirmationDialog({ open, onClose, onConfirm, itemName }) {
+export default function DeleteConfirmationDialog({ open, onClose, onConfirm }) {
   return (
     <Dialog
       open={open}
@@ -21,7 +21,6 @@ export default function DeleteConfirmationDialog({ open, onClose, onConfirm, ite
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Сигурни ли сте, че искате да изтриете {itemName}?
           Това действие не може да бъде отменено.
         </DialogContentText>
       </DialogContent>
@@ -35,4 +34,4 @@ export default function DeleteConfirmationDialog({ open, onClose, onConfirm, ite
       </DialogActions>
     </Dialog>
   );
-} 
+}

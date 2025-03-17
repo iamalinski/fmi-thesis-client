@@ -1,51 +1,54 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+// helpers
 import api from "@helpers/axios";
 
-// Hook for GET requests
+// librarires
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 export const useFetch = (endpoint, queryKey, options = {}) => {
   return useQuery({
     queryKey: Array.isArray(queryKey) ? queryKey : [queryKey],
     queryFn: async () => {
       const response = await api.get(endpoint);
+
       return response.data;
     },
     ...options,
   });
 };
 
-// Hook for POST requests
 export const useCreate = (endpoint, options = {}) => {
   const queryClient = useQueryClient();
+  const { onSuccess: optionsOnSuccess, ...restOptions } = options;
 
   return useMutation({
     mutationFn: async (data) => {
       const response = await api.post(endpoint, data);
+
       return response.data;
     },
     onSuccess: (data, variables, context) => {
-      // Optional: Invalidate queries that should refetch after this mutation
       if (options.invalidateQueries) {
         options.invalidateQueries.forEach((query) => {
           queryClient.invalidateQueries({ queryKey: query });
         });
       }
 
-      // Call optional success callback
-      if (options.onSuccess) {
-        options.onSuccess(data, variables, context);
+      if (optionsOnSuccess) {
+        optionsOnSuccess(data, variables, context);
       }
     },
-    ...options,
+    ...restOptions,
   });
 };
 
-// Hook for PUT requests
 export const useUpdate = (endpoint, options = {}) => {
   const queryClient = useQueryClient();
+  const { onSuccess: optionsOnSuccess, ...restOptions } = options;
 
   return useMutation({
     mutationFn: async ({ id, data }) => {
       const response = await api.put(`${endpoint}/${id}`, data);
+
       return response.data;
     },
     onSuccess: (data, variables, context) => {
@@ -55,21 +58,22 @@ export const useUpdate = (endpoint, options = {}) => {
         });
       }
 
-      if (options.onSuccess) {
-        options.onSuccess(data, variables, context);
+      if (optionsOnSuccess) {
+        optionsOnSuccess(data, variables, context);
       }
     },
-    ...options,
+    ...restOptions,
   });
 };
 
-// Hook for DELETE requests
 export const useDelete = (endpoint, options = {}) => {
   const queryClient = useQueryClient();
+  const { onSuccess: optionsOnSuccess, ...restOptions } = options;
 
   return useMutation({
     mutationFn: async (id) => {
       const response = await api.delete(`${endpoint}/${id}`);
+
       return response.data;
     },
     onSuccess: (data, variables, context) => {
@@ -79,10 +83,10 @@ export const useDelete = (endpoint, options = {}) => {
         });
       }
 
-      if (options.onSuccess) {
-        options.onSuccess(data, variables, context);
+      if (optionsOnSuccess) {
+        optionsOnSuccess(data, variables, context);
       }
     },
-    ...options,
+    ...restOptions,
   });
 };
