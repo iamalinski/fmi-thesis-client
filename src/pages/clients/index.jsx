@@ -12,39 +12,46 @@ import {
   Typography,
   Button,
   TextField,
-  IconButton,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
   Grid,
   Divider,
   Skeleton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteConfirmationDialog from "@components/common/DeleteConfirmationDialog";
 import { createPortal } from "react-dom";
 import CreateUpdateClient from "@components/clients/CreateUpdate";
-import { useClients } from "@hooks/clients/useClients";
+import { useClients, useDeleteClient } from "@hooks/clients/useClients";
 import moment from "moment/moment";
 import ClientsTableSkeleton from "@components/clients/TableSkeleton";
+import ClientMenuOptions from "../../components/clients/MenuOptions";
+import SuccessAlert from "../../components/common/SuccessAlert";
 
 export default function Clients() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
     page: 0,
     limit: 10,
   });
 
-  const { isPending, data } = useClients(filters);
-
   const createUpdateClientRef = useRef(null);
+  const deleteDialogRef = useRef(null);
+  const successAlertRef = useRef(null);
+
+  const { isPending, data } = useClients(filters);
+  const deleteClientMutation = useDeleteClient({
+    onSuccess: () => {
+      successAlertRef.current.open();
+      deleteDialogRef.current.close();
+    },
+    onError: (error) => {
+      let errorMessage = "Възникна грешка";
+    },
+  });
+
+  const handleDeleteConfirm = (id) => {
+    deleteClientMutation.mutate(id);
+  };
 
   const handleChangePage = (event, newPage) => {
     setFilters((prev) => ({
@@ -59,28 +66,6 @@ export default function Clients() {
       limit: parseInt(event.target.value, 10),
       page: 0,
     }));
-  };
-
-  const handleOpenMenu = (event, clientId) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
-  const handleDeleteClick = () => {
-    setDeleteDialogOpen(true);
-    handleCloseMenu();
-  };
-
-  const handleDeleteConfirm = () => {
-    // TODO: Implement delete API call
-    setDeleteDialogOpen(false);
-  };
-
-  const handleDeleteCancel = () => {
-    setDeleteDialogOpen(false);
   };
 
   const handleFilterChange = (event) => {
@@ -256,12 +241,12 @@ export default function Clients() {
                           {moment(created_at).format("DD.MM.YYYY г.")}
                         </TableCell>
                         <TableCell padding="none" align="center">
-                          <IconButton
-                            size="small"
-                            onClick={(event) => handleOpenMenu(event, id)}
-                          >
-                            <MoreVertIcon fontSize="small" />
-                          </IconButton>
+                          <ClientMenuOptions
+                            onEdit={() =>
+                              createUpdateClientRef.current.open(id)
+                            }
+                            onDelete={() => deleteDialogRef.current.open(id)}
+                          />
                         </TableCell>
                       </TableRow>
                     )
@@ -297,55 +282,19 @@ export default function Clients() {
             }
           />
         </Paper>
-
-        {/* Options Menu */}
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleCloseMenu}
-          transformOrigin={{ horizontal: "right", vertical: "top" }}
-          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              overflow: "visible",
-              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.1))",
-              mt: 1,
-              borderRadius: 2,
-              minWidth: 150,
-              "& .MuiMenuItem-root": {
-                px: 2,
-                py: 1,
-                borderRadius: 1,
-                mx: 0.5,
-              },
-            },
-          }}
-        >
-          <MenuItem
-            onClick={() => createUpdateClientRef.current.open(client.id)}
-          >
-            <ListItemIcon>
-              <EditIcon fontSize="small" color="warning" />
-            </ListItemIcon>
-            <ListItemText>Редакция</ListItemText>
-          </MenuItem>
-          <MenuItem onClick={handleDeleteClick} sx={{ color: "error.main" }}>
-            <ListItemIcon>
-              <DeleteIcon fontSize="small" color="error" />
-            </ListItemIcon>
-            <ListItemText>Изтрий</ListItemText>
-          </MenuItem>
-        </Menu>
       </Box>
       {createPortal(
         <>
           <DeleteConfirmationDialog
-            open={deleteDialogOpen}
-            onClose={handleDeleteCancel}
             onConfirm={handleDeleteConfirm}
+            ref={deleteDialogRef}
+            isLoading={deleteClientMutation.isPending}
           />
           <CreateUpdateClient ref={createUpdateClientRef} />
+          <SuccessAlert
+            ref={successAlertRef}
+            text="Изтриването беше успешно!"
+          />
         </>,
         document.body
       )}
